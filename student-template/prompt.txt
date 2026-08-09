@@ -1,4 +1,180 @@
 # TODO: Write your AI prompt below this line
+Create a production-ready React component named `SupplierPerformance` for an ERP dashboard.
+
+## Objective
+
+Build a **Supplier Performance** widget that allows users to quickly evaluate supplier performance based on:
+
+1. On-time delivery percentage
+2. Average response time to purchase orders
+3. Overall color-coded performance status: Green, Yellow, or Red
+
+The component should be clean, responsive, accessible, and suitable for an existing React application.
+
+## Expected API Data Structure
+
+The component should accept supplier performance data either through props or from an API.
+
+Use the following TypeScript-style data structure as the expected shape:
+
+```js
+{
+  suppliers: [
+    {
+      supplierId: "SUP-001",
+      supplierName: "ABC Supplies",
+      onTimeDeliveryPercentage: 96.5,
+      averageResponseTimeHours: 4.2
+    },
+    {
+      supplierId: "SUP-002",
+      supplierName: "XYZ Manufacturing",
+      onTimeDeliveryPercentage: 82.0,
+      averageResponseTimeHours: 13.5
+    }
+  ]
+}
+```
+
+The React component should support:
+
+```jsx
+<SupplierPerformance suppliers={suppliers} />
+```
+
+Each supplier object must contain:
+
+* `supplierId` — unique supplier identifier
+* `supplierName` — supplier display name
+* `onTimeDeliveryPercentage` — numeric percentage from 0 to 100
+* `averageResponseTimeHours` — average response time in hours
+
+If the component is designed to fetch data itself instead of receiving it through props, use an API endpoint such as:
+
+```text
+/api/suppliers/performance
+```
+
+The API response should follow the same `{ suppliers: [...] }` structure.
+
+## UI Layout
+
+Use a **responsive table** as the primary layout.
+
+Display the following columns:
+
+| Column             | Description                              |
+| ------------------ | ---------------------------------------- |
+| Supplier           | Supplier name                            |
+| On-Time Delivery   | Percentage of deliveries made on time    |
+| Avg. Response Time | Average response time to purchase orders |
+| Status             | Overall color-coded performance          |
+
+Example:
+
+```text
+Supplier             On-Time Delivery    Avg. Response Time    Status
+-----------------------------------------------------------------------
+ABC Supplies         96.5%               4.2 hrs               Green
+XYZ Manufacturing    82.0%               13.5 hrs              Yellow
+Global Parts         65.0%               28.0 hrs              Red
+```
+
+Use a visually distinct status badge containing both a color and text.
+
+Do not rely on color alone for accessibility. For example:
+
+* 🟢 Green — Good
+* 🟡 Yellow — Needs Attention
+* 🔴 Red — Poor
+
+The table should work well on desktop and remain usable on smaller screens through responsive styling or horizontal scrolling.
+
+## Color-Coding Logic
+
+Calculate the status for each supplier using both performance metrics.
+
+Use these default thresholds:
+
+### Green — Good
+
+Assign **Green** when:
+
+```text
+On-time delivery >= 90%
+AND
+Average response time <= 8 hours
+```
+
+### Yellow — Needs Attention
+
+Assign **Yellow** when the supplier does not qualify for Green but still meets moderate performance levels:
+
+```text
+On-time delivery >= 75%
+AND
+Average response time <= 24 hours
+```
+
+### Red — Poor
+
+Assign **Red** when either metric falls below the Yellow thresholds:
+
+```text
+On-time delivery < 75%
+OR
+Average response time > 24 hours
+```
+
+When determining the overall status, use the worse result if the two metrics have different statuses.
+
+For example:
+
+* Delivery = Green, Response Time = Yellow → Overall = Yellow
+* Delivery = Green, Response Time = Red → Overall = Red
+* Delivery = Yellow, Response Time = Green → Overall = Yellow
+
+Keep these thresholds in clearly named constants so they can easily be changed later.
+
+## Component Requirements
+
+Implement the component using modern React practices.
+
+Requirements:
+
+* Use a functional React component.
+* Use clear and reusable helper functions where appropriate.
+* Do not hard-code supplier names or performance values.
+* Handle an empty supplier array gracefully with a message such as:
+  `No supplier performance data available.`
+* Handle missing or invalid numeric values without crashing.
+* Format delivery percentages consistently, preferably to one decimal place.
+* Format response time clearly, for example `4.2 hrs`.
+* Use semantic HTML such as `<table>`, `<thead>`, `<tbody>`, `<th>`, and `<td>`.
+* Make status badges accessible and include the status text.
+* Avoid unnecessary external dependencies.
+* Keep the component easy to integrate into an existing ERP dashboard.
+
+## Optional Enhancements
+
+If appropriate, include:
+
+* A small summary above the table showing the number of suppliers.
+* Sorting by supplier name, delivery percentage, or response time.
+* A tooltip or accessible explanation of the Green/Yellow/Red thresholds.
+* Loading and error states if the component fetches its own API data.
+
+Do not add unnecessary charts or complex functionality unless it improves the supplier-performance use case.
+
+## Expected Output
+
+Generate the complete React component code for:
+
+```text
+SupplierPerformance
+```
+
+Include any required styling in a maintainable way. The resulting component should be ready to copy into an existing React project and should clearly display supplier performance and the calculated Green/Yellow/Red status.
 
 
 ---
